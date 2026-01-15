@@ -1,7 +1,10 @@
+file(GLOB CPP_FILES CONFIGURE_DEPENDS "*.cpp")
+file(GLOB H_FILES CONFIGURE_DEPENDS "*.h")
+
 add_library(ui STATIC
-    MainWindow.cpp
-    ViewportWidget.cpp
-    )
+    ${CPP_FILES}
+    ${H_FILES}
+)
 
 target_include_directories(ui PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

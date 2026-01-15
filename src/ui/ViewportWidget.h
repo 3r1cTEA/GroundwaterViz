@@ -5,6 +5,9 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
 
 
 class ViewportWidget: public QOpenGLWidget,
@@ -18,6 +21,11 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
+
+private:
+    QOpenGLShaderProgram program;
+    QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
+    QOpenGLVertexArrayObject vao;
 };
 
 #endif // VIEWPORTWIDGET_H
