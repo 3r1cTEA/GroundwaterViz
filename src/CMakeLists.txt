@@ -1,5 +1,7 @@
 add_subdirectory(core)
+add_subdirectory(rendering)
 add_subdirectory(ui)
+
 
 add_executable(GroundwaterViz
     main.cpp

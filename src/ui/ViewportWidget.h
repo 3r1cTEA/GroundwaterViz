@@ -1,13 +1,12 @@
 #pragma once
 
-#ifndef VIEWPORTWIDGET_H
-#define VIEWPORTWIDGET_H
-
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
+
+#include "TriangleRenderer.h"
 
 
 class ViewportWidget: public QOpenGLWidget,
@@ -23,9 +22,7 @@ protected:
     void paintGL() override;
 
 private:
-    QOpenGLShaderProgram program;
-    QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
-    QOpenGLVertexArrayObject vao;
+    TriangleRenderer triangle;
 };
 
-#endif // VIEWPORTWIDGET_H
+

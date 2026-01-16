@@ -1,0 +1,47 @@
+project_root/
+├─ CMakeLists.txt              ← Top-level build config
+├─ main.cpp                    ← Application entry point (only one)
+
+├─ core/                       ← Domain + math (NO Qt, NO OpenGL)
+│  ├─ CMakeLists.txt
+│  ├─ Grid3D.h / .cpp           ← Structured grid (cells, layers)
+│  ├─ FlowModel.h / .cpp        ← Heads, gradients, velocities
+│  ├─ ParticleTracker.h / .cpp  ← Advective transport logic
+│  └─ MathUtils.h / .cpp        ← Interpolation, vectors, helpers
+
+├─ io/                         ← File I/O (still NO OpenGL)
+│  ├─ CMakeLists.txt
+│  ├─ ModflowReader.h / .cpp    ← MODFLOW files
+│  ├─ CsvReader.h / .cpp
+│  └─ BinaryReader.h / .cpp
+
+├─ models/                     ← Qt Models (MVC layer)
+│  ├─ CMakeLists.txt
+│  ├─ GridModel.h / .cpp        ← QAbstractTableModel
+│  └─ PropertyModel.h / .cpp
+
+├─ workers/                    ← Multithreaded workers (NO OpenGL)
+│  ├─ CMakeLists.txt
+│  ├─ LoadWorker.h / .cpp       ← Async file loading
+│  ├─ ComputeWorker.h / .cpp    ← Flow calculations
+│  └─ ParticleWorker.h / .cpp   ← Particle stepping loop
+
+├─ rendering/                  ← OpenGL-only rendering code
+│  ├─ CMakeLists.txt
+│  ├─ GLScene.h / .cpp          ← Owns renderers + render order
+│  ├─ Camera.h / .cpp           ← View + projection matrices
+│  ├─ GridRenderer.h / .cpp     ← Draws grid geometry
+│  └─ VectorRenderer.h / .cpp   ← Draws flow vectors / arrows
+
+├─ ui/                         ← Qt Widgets (NO math, NO OpenGL logic)
+│  ├─ CMakeLists.txt
+│  ├─ MainWindow.h / .cpp       ← QMainWindow
+│  ├─ ViewportWidget.h / .cpp   ← QOpenGLWidget (context owner)
+│  ├─ ControlDock.h / .cpp      ← UI controls
+│  └─ PropertyDialog.h / .cpp
+
+└─ resources/
+   └─ shaders/                 ← Optional later
+      ├─ grid.vert
+      ├─ grid.frag
+      └─ vector.frag
