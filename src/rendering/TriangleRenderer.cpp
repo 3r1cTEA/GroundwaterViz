@@ -2,7 +2,11 @@
 
 TriangleRenderer::TriangleRenderer()=default;
 
-TriangleRenderer::~TriangleRenderer(){}
+TriangleRenderer::~TriangleRenderer()
+{
+    vao.destroy();
+    vbo.destroy();
+}
 
 void TriangleRenderer::initialize()
 {
@@ -11,10 +15,11 @@ qDebug()<< "triangle initialized";
     //Shaders
     const char *vertexShader = R"(
         #version 330 core
-        layout (location = 0) in vec3 aPos;
+        layout (location = 0) in vec3 position;
+        uniform mat4 mvp;
         void main()
         {
-            gl_Position = vec4(aPos, 1.0);
+            gl_Position = mvp * vec4(position, 1.0);
         })";
 
     const char *fragmentShader = R"(
@@ -52,14 +57,27 @@ qDebug()<< "triangle initialized";
     program.release();
 }
 
-void TriangleRenderer::render()
+void TriangleRenderer::setAspectRatio(float aspect)
+{
+    aspectRatio = aspect;
+}
+
+void TriangleRenderer::render(const Camera &camera)
 {
     program.bind();
-    vao.bind();
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+        QMatrix4x4 projection;
+        projection.perspective(60.0f, aspectRatio, 0.1f, 100.0f);
 
-    vao.release();
-    program.release();
+        QMatrix4x4 mvp = projection * camera.viewMatrix();
+        program.setUniformValue("mvp", mvp);
+
+        vao.bind();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        vao.release();
+
+        program.release();
 }
+
+
 

@@ -5,8 +5,11 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
+#include <QPoint>
+#include <QKeyEvent>
 
 #include "TriangleRenderer.h"
+#include "Camera.h"
 
 
 class ViewportWidget: public QOpenGLWidget,
@@ -21,8 +24,18 @@ protected:
     void resizeGL(int w, int h) override;
     void paintGL() override;
 
+    //keys baby
+    void keyPressEvent(QKeyEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+
 private:
+    Camera camera;
     TriangleRenderer triangle;
+
+    bool mouseLookEnabled = false;
+    QPoint lastMousePos;
 };
 
 

@@ -5,6 +5,8 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 
+#include "Camera.h"
+
 class TriangleRenderer: protected QOpenGLFunctions
 {
 public:
@@ -12,11 +14,16 @@ public:
     ~TriangleRenderer();
 
     void initialize();
-    void render();
+    void resize(int w, int h);
+
+    void setAspectRatio(float aspect);
+    void render(const Camera& camera);
 
 private:
     QOpenGLShaderProgram program;
     QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
     QOpenGLVertexArrayObject vao;
+
+    float aspectRatio = 1.0f;
 
 };
