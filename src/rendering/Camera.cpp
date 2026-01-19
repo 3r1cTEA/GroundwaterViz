@@ -9,7 +9,7 @@ Camera::Camera()
 void Camera::moveForward(float delta)
 {
     position += front * delta;
-    qDebug() << "Camera pos:" << position;
+   // qDebug() << "Camera pos:" << position;
 }
 
 void Camera::moveRight(float delta)

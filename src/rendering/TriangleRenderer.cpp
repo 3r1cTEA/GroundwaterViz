@@ -11,7 +11,7 @@ TriangleRenderer::~TriangleRenderer()
 void TriangleRenderer::initialize()
 {
     initializeOpenGLFunctions();
-qDebug()<< "triangle initialized";
+//qDebug()<< "triangle initialized";
     //Shaders
     const char *vertexShader = R"(
         #version 330 core

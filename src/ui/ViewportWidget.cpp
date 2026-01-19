@@ -12,9 +12,10 @@ void ViewportWidget::initializeGL()
 {
     initializeOpenGLFunctions();
     glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
-    qDebug()<< "OpenGL initialized";
+    //qDebug()<< "OpenGL initialized";
 
     triangle.initialize();
+    grid.initialize();
 
 
 }
@@ -22,19 +23,23 @@ void ViewportWidget::initializeGL()
 void ViewportWidget::resizeGL(int w, int h)
 {
     glViewport(0,0,w,h);
-    triangle.setAspectRatio(float(w) / float(h));
+    float aspect = float(w) / float(h);
+    triangle.setAspectRatio(aspect);
+    grid.setAspectRatio(aspect);
 }
 
 void ViewportWidget::paintGL()
 {
+    glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     triangle.render(camera);
+    grid.render(camera);
 }
 
 void ViewportWidget::keyPressEvent(QKeyEvent *event)
 {
-    constexpr float speed = 1.0f;
+    constexpr float speed = 0.5f;
 
     switch(event->key())
     {
