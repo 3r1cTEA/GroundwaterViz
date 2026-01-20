@@ -44,6 +44,18 @@ QMatrix4x4 Camera::viewMatrix() const
     return view;
 }
 
+QMatrix4x4 Camera::projectionMatrix() const
+{
+    QMatrix4x4 proj;
+    proj.perspective(fov, aspectRatio, nearPlane, farPlane);
+    return proj;
+}
+
+void Camera::setAspectRatio(float aspect)
+{
+    aspectRatio = aspect;
+}
+
 void Camera::updateVectors()
 {
     QVector3D f;

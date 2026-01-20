@@ -19,6 +19,9 @@ public:
     //matrix to return
     QMatrix4x4 viewMatrix() const;
 
+    QMatrix4x4 projectionMatrix() const;
+
+    void setAspectRatio(float aspect);
 
 
 private:
@@ -26,6 +29,11 @@ private:
     QVector3D front    {0.0f, 0.0f, -1.0f};
     QVector3D up       {0.0f, 1.0f, 0.0f};
     QVector3D right    {1.0f, 0.0f, 0.0f};
+
+    float fov{60.0f};
+    float aspectRatio{1.0f};
+    float nearPlane{0.1f};
+    float farPlane{1000.0f};
 
     float yawAngle{-90.0f};
     float pitchAngle{0.0f};

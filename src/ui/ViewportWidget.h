@@ -11,7 +11,7 @@
 #include "TriangleRenderer.h"
 #include "Camera.h"
 #include "GridRenderer.h"
-
+#include "AxisRenderer.h"
 
 class ViewportWidget: public QOpenGLWidget,
                        protected QOpenGLFunctions
@@ -35,6 +35,7 @@ private:
     Camera camera;
     TriangleRenderer triangle;
     GridRenderer grid;
+    AxisRenderer axis;
 
     bool mouseLookEnabled = false;
     QPoint lastMousePos;

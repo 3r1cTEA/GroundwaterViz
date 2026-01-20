@@ -16,6 +16,7 @@ void ViewportWidget::initializeGL()
 
     triangle.initialize();
     grid.initialize();
+    axis.initialize();
 
 
 }
@@ -26,6 +27,8 @@ void ViewportWidget::resizeGL(int w, int h)
     float aspect = float(w) / float(h);
     triangle.setAspectRatio(aspect);
     grid.setAspectRatio(aspect);
+    camera.setAspectRatio(aspect);
+    //axis.setAspectRatio(aspect);
 }
 
 void ViewportWidget::paintGL()
@@ -35,6 +38,7 @@ void ViewportWidget::paintGL()
 
     triangle.render(camera);
     grid.render(camera);
+    axis.render(camera);
 }
 
 void ViewportWidget::keyPressEvent(QKeyEvent *event)
