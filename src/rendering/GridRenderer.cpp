@@ -14,8 +14,7 @@ GridRenderer::~GridRenderer()
 void GridRenderer::initialize()
 {
     initializeOpenGLFunctions();
-    //qDebug()<< "grid initialized";
-    //Shaders
+
     const char *vertexShader = R"(
         #version 330 core
         layout (location = 0) in vec3 position;
@@ -40,17 +39,13 @@ void GridRenderer::initialize()
     buildGrid(20,1.0f);
 }
 
-void GridRenderer::setAspectRatio(float aspect)
-{
-    aspectRatio = aspect;
-}
 
 void GridRenderer::render(const Camera &camera)
 {
     program.bind();
 
         QMatrix4x4 projection;
-        projection.perspective(60.0f, aspectRatio, 0.1f, 100.0f);
+        projection.perspective(60.0f, 1.0f, 0.1f, 100.0f);
 
         QMatrix4x4 mvp = projection * camera.viewMatrix();
         program.setUniformValue("mvp", mvp);

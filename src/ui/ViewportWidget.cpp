@@ -12,12 +12,15 @@ void ViewportWidget::initializeGL()
 {
     initializeOpenGLFunctions();
     glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
-    //qDebug()<< "OpenGL initialized";
 
-    triangle.initialize();
-    grid.initialize();
-    axis.initialize();
+    glEnable(GL_DEPTH_TEST);
 
+    renderers.push_back(std::make_unique<TriangleRenderer>());
+    renderers.push_back(std::make_unique<GridRenderer>());
+    renderers.push_back(std::make_unique<AxisRenderer>());
+
+    for (auto& r : renderers)
+        r->initialize();
 
 }
 
@@ -25,10 +28,8 @@ void ViewportWidget::resizeGL(int w, int h)
 {
     glViewport(0,0,w,h);
     float aspect = float(w) / float(h);
-    triangle.setAspectRatio(aspect);
-    grid.setAspectRatio(aspect);
     camera.setAspectRatio(aspect);
-    //axis.setAspectRatio(aspect);
+
 }
 
 void ViewportWidget::paintGL()
@@ -36,9 +37,9 @@ void ViewportWidget::paintGL()
     glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    triangle.render(camera);
-    grid.render(camera);
-    axis.render(camera);
+    for (auto& r : renderers)
+        r->render(camera);
+
 }
 
 void ViewportWidget::keyPressEvent(QKeyEvent *event)

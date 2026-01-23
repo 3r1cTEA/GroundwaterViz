@@ -9,7 +9,7 @@ Camera::Camera()
 void Camera::moveForward(float delta)
 {
     position += front * delta;
-   // qDebug() << "Camera pos:" << position;
+
 }
 
 void Camera::moveRight(float delta)
@@ -38,8 +38,6 @@ void Camera::pitch(float degrees)
 QMatrix4x4 Camera::viewMatrix() const
 {
     QMatrix4x4 view;
-    //viewMatrix.lookAt(eye, center, up)
-    //gets the math to transform the world relative to the camera
     view.lookAt(position, position + front,up);
     return view;
 }

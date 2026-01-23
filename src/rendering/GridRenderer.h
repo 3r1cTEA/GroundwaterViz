@@ -5,26 +5,18 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 
-#include <Camera.h>
+#include "Camera.h"
+#include "IRenderer.h"
 
 
-class GridRenderer:protected QOpenGLFunctions
-        /// not inheriting from trianglerenderer as I hope to clear it out later
+class GridRenderer:protected QOpenGLFunctions, public IRenderer
 {
 public:
     GridRenderer();
     ~GridRenderer();
 
-    void initialize();
-
-    //void resize(int w, int h);
-
-    void setAspectRatio(float aspect);
-    void render(const Camera& camera);
-
-
-
-
+    void initialize() override;
+    void render(const Camera& camera) override;
 
 private:
 
@@ -35,7 +27,6 @@ private:
     QOpenGLVertexArrayObject vao;
 
     int vertexCount = 0;
-    float aspectRatio = 1.0f;
 };
 
 

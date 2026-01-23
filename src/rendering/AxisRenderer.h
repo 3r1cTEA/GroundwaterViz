@@ -5,16 +5,17 @@
 #include <QOpenGLShaderProgram>
 
 #include "Camera.h"
+#include "IRenderer.h"
 
 
-class AxisRenderer
+class AxisRenderer: public IRenderer
 {
 public:
     AxisRenderer();
     ~AxisRenderer();
 
-    void initialize();
-    void render(const Camera& camera);
+    void initialize() override;
+    void render(const Camera& camera) override;
 
 private:
     QOpenGLShaderProgram program;

@@ -65,10 +65,10 @@ void AxisRenderer::initialize()
     program.bind();
 
     program.enableAttributeArray(0);
-    program.setAttributeBuffer(0, GL_FLOAT, 0, 3,6*sizeof(float));
+    program.setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(float));
 
     program.enableAttributeArray(1);
-    program.setAttributeBuffer(1, GL_FLOAT, 3*sizeof(float),3,6*sizeof(float));
+    program.setAttributeBuffer(1, GL_FLOAT, 3*sizeof(float), 3, 6*sizeof(float));
 
     vao.release();
     vbo.release();
@@ -87,5 +87,4 @@ void AxisRenderer::render(const Camera &camera)
     vao.release();
 
     program.release();
-
 }

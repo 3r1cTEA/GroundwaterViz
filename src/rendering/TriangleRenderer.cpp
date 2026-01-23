@@ -57,17 +57,12 @@ void TriangleRenderer::initialize()
     program.release();
 }
 
-void TriangleRenderer::setAspectRatio(float aspect)
-{
-    aspectRatio = aspect;
-}
-
 void TriangleRenderer::render(const Camera &camera)
 {
     program.bind();
 
         QMatrix4x4 projection;
-        projection.perspective(60.0f, aspectRatio, 0.1f, 100.0f);
+        projection.perspective(60.0f, 1.0f , 0.1f, 100.0f);
 
         QMatrix4x4 mvp = projection * camera.viewMatrix();
         program.setUniformValue("mvp", mvp);
