@@ -11,7 +11,6 @@ TriangleRenderer::~TriangleRenderer()
 void TriangleRenderer::initialize()
 {
     initializeOpenGLFunctions();
-//qDebug()<< "triangle initialized";
     //Shaders
     const char *vertexShader = R"(
         #version 330 core
@@ -61,17 +60,15 @@ void TriangleRenderer::render(const Camera &camera)
 {
     program.bind();
 
-        QMatrix4x4 projection;
-        projection.perspective(60.0f, 1.0f , 0.1f, 100.0f);
 
-        QMatrix4x4 mvp = projection * camera.viewMatrix();
-        program.setUniformValue("mvp", mvp);
+    QMatrix4x4 mvp = camera.projectionMatrix() * camera.viewMatrix();
+    program.setUniformValue("mvp", mvp);
 
-        vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        vao.release();
+    vao.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    vao.release();
 
-        program.release();
+    program.release();
 }
 
 

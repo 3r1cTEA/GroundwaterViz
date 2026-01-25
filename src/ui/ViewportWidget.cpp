@@ -11,14 +11,14 @@ ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent)
 void ViewportWidget::initializeGL()
 {
     initializeOpenGLFunctions();
-    glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     glEnable(GL_DEPTH_TEST);
 
     renderers.push_back(std::make_unique<TriangleRenderer>());
     renderers.push_back(std::make_unique<GridRenderer>());
     renderers.push_back(std::make_unique<AxisRenderer>());
-
+    renderers.push_back(std::make_unique<GridLineRenderer>());
     for (auto& r : renderers)
         r->initialize();
 
@@ -29,12 +29,12 @@ void ViewportWidget::resizeGL(int w, int h)
     glViewport(0,0,w,h);
     float aspect = float(w) / float(h);
     camera.setAspectRatio(aspect);
-
+    //axis.setAspectRatio(aspect);
 }
 
 void ViewportWidget::paintGL()
 {
-    glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
+    //glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (auto& r : renderers)

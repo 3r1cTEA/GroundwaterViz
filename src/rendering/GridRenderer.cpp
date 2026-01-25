@@ -44,10 +44,9 @@ void GridRenderer::render(const Camera &camera)
 {
     program.bind();
 
-        QMatrix4x4 projection;
-        projection.perspective(60.0f, 1.0f, 0.1f, 100.0f);
 
-        QMatrix4x4 mvp = projection * camera.viewMatrix();
+
+        QMatrix4x4 mvp = camera.projectionMatrix() * camera.viewMatrix();
         program.setUniformValue("mvp", mvp);
 
         vao.bind();

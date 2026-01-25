@@ -39,8 +39,6 @@ private:
     float pitchAngle{0.0f};
 
     void updateVectors();
-
-
 };
 
 

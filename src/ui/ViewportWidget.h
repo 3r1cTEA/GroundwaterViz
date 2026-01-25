@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "GridRenderer.h"
 #include "AxisRenderer.h"
+#include "GridLineRenderer.h"
 #include "IRenderer.h"
 
 class ViewportWidget: public QOpenGLWidget,
@@ -34,9 +35,10 @@ protected:
 
 private:
     Camera camera;
-    TriangleRenderer triangle;
-    GridRenderer grid;
-    AxisRenderer axis;
+   // TriangleRenderer triangle;
+    //GridRenderer grid;
+    //AxisRenderer axis;
+    //GridLineRenderer gridbox;
 
     std::vector<std::unique_ptr<IRenderer>> renderers;
 
