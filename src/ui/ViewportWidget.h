@@ -13,6 +13,7 @@
 #include "GridRenderer.h"
 #include "AxisRenderer.h"
 #include "GridLineRenderer.h"
+#include "FilledGridRenderer.h"
 #include "IRenderer.h"
 
 class ViewportWidget: public QOpenGLWidget,

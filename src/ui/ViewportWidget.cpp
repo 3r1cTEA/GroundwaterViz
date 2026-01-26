@@ -19,6 +19,7 @@ void ViewportWidget::initializeGL()
     renderers.push_back(std::make_unique<GridRenderer>());
     renderers.push_back(std::make_unique<AxisRenderer>());
     renderers.push_back(std::make_unique<GridLineRenderer>());
+    renderers.push_back(std::make_unique<FilledGridRenderer>());
     for (auto& r : renderers)
         r->initialize();
 

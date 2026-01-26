@@ -26,15 +26,15 @@ private:
     QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
     QOpenGLVertexArrayObject vao;
 
-    int vertexCount = 0;
+    int vertexCount{0};
 
 
-        int nx = 10;
-        int ny = 10;
-        int nz = 10;
-        float dx = 1.0f;
-        float dy = 1.0f;
-        float dz = 1.0f;
+    int nx{10};
+    int ny{10};
+    int nz{10};
+    float dx{1.0f};
+    float dy{1.0f};
+    float dz{1.0f};
 };
 
 
