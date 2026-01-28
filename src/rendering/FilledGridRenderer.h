@@ -36,7 +36,7 @@ private:
 
 
         int nx{10};
-        int ny{10};
+        int ny{5};
         int nz{10};
         float dx{1.0f};
         float dy{1.0f};
