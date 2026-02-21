@@ -6,6 +6,7 @@ ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
+
 }
 
 void ViewportWidget::initializeGL()
@@ -13,13 +14,17 @@ void ViewportWidget::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+    mesh.buildTestGrid(5,5,3,1.0f,1.0f,1.0f);
+
     glEnable(GL_DEPTH_TEST);
 
-    renderers.push_back(std::make_unique<TriangleRenderer>());
+
+
+    //renderers.push_back(std::make_unique<TriangleRenderer>());
     renderers.push_back(std::make_unique<GridRenderer>());
     renderers.push_back(std::make_unique<AxisRenderer>());
     renderers.push_back(std::make_unique<GridLineRenderer>());
-    renderers.push_back(std::make_unique<FilledGridRenderer>());
+    renderers.push_back(std::make_unique<FilledGridRenderer>(mesh));
     for (auto& r : renderers)
         r->initialize();
 

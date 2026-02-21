@@ -7,26 +7,19 @@
 
 #include "IRenderer.h"
 #include "Camera.h"
+#include "GridMesh.h"
 
 class FilledGridRenderer: protected QOpenGLFunctions, public IRenderer
 {
 public:
-    FilledGridRenderer();
+    FilledGridRenderer(const GridMesh& mesh);
     ~FilledGridRenderer();
 
     void initialize() override;
     void render(const Camera& camera) override;
 
 private:
-    void buildGrid();
-    void addQuad(
-            std::vector<QVector3D>& vertices,
-            std::vector<unsigned int>& indices,
-            const QVector3D& a,
-            const QVector3D& b,
-            const QVector3D& c,
-            const QVector3D& d);
-
+    const GridMesh m_mesh;
     QOpenGLShaderProgram program;
     QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
     QOpenGLBuffer ebo{QOpenGLBuffer::IndexBuffer};
@@ -35,10 +28,7 @@ private:
     int indexCount{0};
 
 
-        int nx{10};
-        int ny{5};
-        int nz{10};
-        float dx{1.0f};
-        float dy{1.0f};
-        float dz{1.0f};
+
 };
+
+
