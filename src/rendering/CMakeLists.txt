@@ -11,11 +11,13 @@ target_include_directories(rendering
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+
 target_include_directories(rendering PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(rendering PUBLIC
+    core
     Qt6::Widgets
     Qt6::OpenGLWidgets
 )

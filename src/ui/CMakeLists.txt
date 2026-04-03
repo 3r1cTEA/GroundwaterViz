@@ -11,7 +11,9 @@ target_include_directories(ui PUBLIC
 )
 
 target_link_libraries(ui PUBLIC
+    core
+    rendering
     Qt6::Widgets
     Qt6::OpenGLWidgets
-    rendering
+
 )

@@ -2,8 +2,9 @@
 #include <QDebug>
 
 
-ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent)
+ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent),grid(4,4,4,1.0f,1.0f,1.0f)   // test grid
 {
+
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
 
@@ -14,7 +15,21 @@ void ViewportWidget::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    mesh.buildTestGrid(5,5,3,1.0f,1.0f,1.0f);
+
+    for(int k=0;k<grid.nz();k++)
+    for(int j=0;j<grid.ny();j++)
+    for(int i=0;i<grid.nx();i++)
+    {
+        int idx = grid.index(i,j,k);
+
+        grid.head()[idx] = 100.0f - k*5.0f;
+    }
+    mesh = GridMesh::fromGrid3D(grid);
+
+        //qDebug << "Mesh vertices: " << mesh.vertices().size();
+        qDebug() << "Mesh vertices:" << mesh.vertices().size();
+        qDebug() << "Mesh indices:" << mesh.indices().size();
+        qDebug() << "Grid head[0]:" << grid.head()[0];
 
     glEnable(GL_DEPTH_TEST);
 
@@ -23,8 +38,10 @@ void ViewportWidget::initializeGL()
     //renderers.push_back(std::make_unique<TriangleRenderer>());
     renderers.push_back(std::make_unique<GridRenderer>());
     renderers.push_back(std::make_unique<AxisRenderer>());
-    renderers.push_back(std::make_unique<GridLineRenderer>());
+    //renderers.push_back(std::make_unique<GridLineRenderer>());
     renderers.push_back(std::make_unique<FilledGridRenderer>(mesh));
+
+    qDebug()<<renderers.size();
     for (auto& r : renderers)
         r->initialize();
 

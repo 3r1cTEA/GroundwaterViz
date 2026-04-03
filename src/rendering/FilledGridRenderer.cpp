@@ -1,7 +1,7 @@
 #include "FilledGridRenderer.h"
 
 
-#include <QVector3D>
+
 #include <vector>
 
 
@@ -20,32 +20,33 @@ ebo.destroy();
 
 void FilledGridRenderer::initialize()
 {
+    qDebug() << "FilledGridRenderer initialized\n";
     initializeOpenGLFunctions();
 
+    program.removeAllShaders();
+
     const char *vertexShader = R"(#version 330 core
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in float scalar;
 
-            layout(location = 0) in vec3 aPosition;
-            layout(location = 1) in vec3 aNormal;
+out vec3 vNormal;
 
-            uniform mat4 uView;
-            uniform mat4 uProj;
 
-            out vec3 vNormal;
-            out vec3 vWorldPos;
+uniform mat4 MVP;
+uniform mat4 model;
 
-            void main()
-            {
-                vNormal = aNormal;
-                vWorldPos = aPosition;
+void main()
+{
+    gl_Position = MVP * vec4(position,1.0);
+    vNormal = mat3(model) * normal;
 
-                gl_Position = uProj * uView * vec4(aPosition, 1.0);
-            }
+}
             )";
 
     const char *fragmentShader = R"(#version 330 core
 
             in vec3 vNormal;
-            in vec3 vWorldPos;
 
             out vec4 FragColor;
 
@@ -74,6 +75,7 @@ void FilledGridRenderer::initialize()
 
     vbo.create();
     vbo.bind();
+
     vbo.allocate(m_mesh.vertices().data(),
                  static_cast<int>(m_mesh.vertices().size() * sizeof(GridMesh::Vertex)));
 
@@ -84,19 +86,39 @@ void FilledGridRenderer::initialize()
 
     indexCount = static_cast<int>(m_mesh.indices().size());
 
-    glEnableVertexAttribArray(0);
+
+
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE,
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
         sizeof(GridMesh::Vertex),
-        reinterpret_cast<void*>(offsetof(GridMesh::Vertex, position))
+        reinterpret_cast<void*>(0)
     );
 
-    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(
-        1, 3, GL_FLOAT, GL_FALSE,
+        1,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
         sizeof(GridMesh::Vertex),
         reinterpret_cast<void*>(offsetof(GridMesh::Vertex, normal))
     );
+
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(
+        2,
+        1,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(GridMesh::Vertex),
+        reinterpret_cast<void*>(offsetof(GridMesh::Vertex, scalar))
+    );
+
+    glEnableVertexAttribArray(2);
 
    // program.release();
     vao.release();
@@ -111,15 +133,19 @@ void FilledGridRenderer::render(const Camera &camera)
     if (!vao.isCreated() || indexCount == 0)
             return;
 
-        program.bind();
-        program.setUniformValue("uView", camera.viewMatrix());
-        program.setUniformValue("uProj", camera.projectionMatrix());
+    program.bind();
 
-        vao.bind();
-        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
-        vao.release();
+    QMatrix4x4 model;
+    model.setToIdentity();
 
-        program.release();
+    QMatrix4x4 MVP = camera.projectionMatrix() * camera.viewMatrix() * model;
+    program.setUniformValue("MVP", MVP);
+    program.setUniformValue("model", model);
+
+    vao.bind();
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+    vao.release();
+    program.release();
 
 }
 

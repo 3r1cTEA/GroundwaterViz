@@ -19,16 +19,18 @@ public:
     float dy() const {return m_dy;}
     float dz() const {return m_dz;}
 
+    int cellCount() const;
+
     int index(int i, int j, int k) const;
 
-    std::vector<float> head;
-    std::vector<float> kx;
-    std::vector<float> ky;
-    std::vector<float> kz;
+    std::vector<float>& head();
+    const std::vector<float>& head() const;
 
 private:
     int m_nx, m_ny, m_nz;
     float m_dx, m_dy, m_dz;
+
+    std::vector<float> m_head;
 };
 
 

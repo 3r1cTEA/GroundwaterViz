@@ -8,6 +8,7 @@
 #include <QPoint>
 #include <QKeyEvent>
 
+#include "Grid3D.h"
 #include "GridMesh.h"
 #include "TriangleRenderer.h"
 #include "Camera.h"
@@ -41,6 +42,7 @@ private:
     //GridRenderer grid;
     //AxisRenderer axis;
     //GridLineRenderer gridbox;
+    Grid3D grid;
     GridMesh mesh;
 
     std::vector<std::unique_ptr<IRenderer>> renderers;

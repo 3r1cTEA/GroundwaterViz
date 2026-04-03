@@ -4,6 +4,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLFunctions>
+#include <QVector3D>
 
 #include "IRenderer.h"
 #include "Camera.h"
@@ -12,7 +13,7 @@
 class FilledGridRenderer: protected QOpenGLFunctions, public IRenderer
 {
 public:
-    FilledGridRenderer(const GridMesh& mesh);
+    explicit FilledGridRenderer(const GridMesh& mesh);
     ~FilledGridRenderer();
 
     void initialize() override;
@@ -20,7 +21,9 @@ public:
 
 private:
     const GridMesh m_mesh;
+
     QOpenGLShaderProgram program;
+
     QOpenGLBuffer vbo{QOpenGLBuffer::VertexBuffer};
     QOpenGLBuffer ebo{QOpenGLBuffer::IndexBuffer};
     QOpenGLVertexArrayObject vao;

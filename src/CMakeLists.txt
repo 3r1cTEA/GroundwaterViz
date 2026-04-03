@@ -12,6 +12,7 @@ add_executable(GroundwaterViz
 target_link_libraries(GroundwaterViz PRIVATE
     core
     ui
+    rendering
     Qt6::Widgets
     Qt6::OpenGLWidgets
     OpenGL::GL
