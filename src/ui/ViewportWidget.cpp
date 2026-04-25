@@ -1,8 +1,9 @@
 #include "ViewportWidget.h"
+#include "ModflowReader.h"
 #include <QDebug>
 
 
-ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent),grid(4,4,4,1.0f,1.0f,1.0f)   // test grid
+ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent),grid(0,0,0,1.0f,1.0f,1.0f)   // test grid
 {
 
     setFocusPolicy(Qt::StrongFocus);
@@ -13,17 +14,12 @@ ViewportWidget::ViewportWidget(QWidget* parent): QOpenGLWidget(parent),grid(4,4,
 void ViewportWidget::initializeGL()
 {
     initializeOpenGLFunctions();
+    glEnable(GL_DEPTH_TEST);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 
-    for(int k=0;k<grid.nz();k++)
-    for(int j=0;j<grid.ny();j++)
-    for(int i=0;i<grid.nx();i++)
-    {
-        int idx = grid.index(i,j,k);
 
-        grid.head()[idx] = 100.0f - k*5.0f;
-    }
+    Grid3D grid = ModflowReader::load("../assets/test_grid.txt");
     mesh = GridMesh::fromGrid3D(grid);
 
         //qDebug << "Mesh vertices: " << mesh.vertices().size();

@@ -1,7 +1,7 @@
 add_subdirectory(core)
 add_subdirectory(rendering)
 add_subdirectory(ui)
-
+add_subdirectory(io)
 
 add_executable(GroundwaterViz
     main.cpp
@@ -13,6 +13,7 @@ target_link_libraries(GroundwaterViz PRIVATE
     core
     ui
     rendering
+    io
     Qt6::Widgets
     Qt6::OpenGLWidgets
     OpenGL::GL
