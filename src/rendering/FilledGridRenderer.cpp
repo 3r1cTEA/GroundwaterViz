@@ -30,6 +30,7 @@ layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in float scalar;
 
+out float vScalar;
 out vec3 vNormal;
 
 
@@ -39,6 +40,8 @@ uniform mat4 model;
 void main()
 {
     gl_Position = MVP * vec4(position,1.0);
+
+    vScalar = scalar;
     vNormal = mat3(model) * normal;
 
 }
@@ -46,22 +49,27 @@ void main()
 
     const char *fragmentShader = R"(#version 330 core
 
+            in float vScalar;
             in vec3 vNormal;
 
             out vec4 FragColor;
 
-            uniform vec3 uLightDir = normalize(vec3(0.5, 1.0, 0.3));
-            uniform vec3 uColor    = vec3(0.7, 0.75, 0.8);
+            uniform float uMin = 0.0;
+            uniform float uMax = 100.0;
 
             void main()
             {
-                vec3 N = normalize(vNormal);
-                float diff = max(dot(N, -uLightDir), 0.0);
+                float t = (vScalar - uMin) / (uMax - uMin);
+                t = clamp(t, 0.0, 1.0);
 
-                vec3 ambient = 0.25 * uColor;
-                vec3 diffuse = diff * uColor;
+                vec3 color = mix (vec3(0,0,1), vec3(1,0,0), t);
 
-                FragColor = vec4(ambient + diffuse, 1.0);
+                vec3 lightDir = normalize(vec3(0.5, 1.0, 0.3));
+                float diff = max(dot(normalize(vNormal), -lightDir), 0.0);
+
+                vec3 finalColor = 0.3 * color + diff * color;
+
+                FragColor = vec4(finalColor, 1.0);
             }
             )";
 
@@ -130,6 +138,12 @@ void main()
 
 void FilledGridRenderer::render(const Camera &camera)
 {
+    float minHead = 0.0f;
+    float maxHead = 100.0f;
+
+    program.setUniformValue("uMin", minHead);
+    program.setUniformValue("uMax", maxHead);
+
     if (!vao.isCreated() || indexCount == 0)
             return;
 
